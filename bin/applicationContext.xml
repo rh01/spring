@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Middle tier application context definition for the image database.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+<!-- bean元素的作用是，当我们的框架加载时候，spring就会自动创建一个bean对象 -->
+<!--  UserService userService = new UserSerive(); -->
+<bean id="userService" class="com.service.UserService">
+	<property name="name">
+		<value>韩顺平</value>
+	</property>
+	<!-- 在userService对象中引用bybService bean -->
+	<property name="byeService" ref="bybService" />
+</bean>
+
+<bean id="bybService" class="com.service.BybService">
+	<property name="name">
+		<value>小鸣</value>
+	</property>
+</bean>
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Middle tier application context definition for the image database.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+<!-- 配置被代理的对象 -->
+<bean id="test1Service" class="com.hsp.aop.Test1Service">
+	<property name="name" value="申恒恒" />
+</bean>
+<!-- 配置前置通知 -->
+<bean id="myMethodBeforeAdvise" class="com.hsp.aop.MyMethodBeforeAdvise" />
+
+<!-- 配置后置通知 -->
+<bean id="myAfterReturningAdvise" class="com.hsp.aop.MyAfterReturningAdvise" />
+
+<!-- 配置环绕通知 -->
+<bean id="myMethodInterceptor" class="com.hsp.aop.MyMethodInterceptor" />
+
+<!-- 配置异常通知 -->
+<bean id="myThrowsAdvice" class="com.hsp.aop.MyThrowsAdvice" />
+
+
+<!-- 配置代理对象 -->
+<bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+<!-- 配置代理接口集 ，写全-->
+<property name="proxyInterfaces">
+	<list>
+		<value>com.hsp.aop.TestServiceInter</value>
+		<value>com.hsp.aop.TestServiceInter2</value>
+	</list>
+</property>
+
+<!-- 把通知织入到代理对象 -->
+<property name="interceptorNames">
+	<!-- 相当于把MyMethodBeforeAdvice迁至通知各代理对象关联 -->
+	<list>
+		<value>myMethodBeforeAdvise</value>
+	    <value>myAfterReturningAdvise</value>
+	    <value>myMethodInterceptor</value>
+	    <value>myThrowsAdvice</value>
+	</list>	
+</property>
+
+<!-- 配置被代理对象,引用 -->
+<property name="target" ref="test1Service" />
+
+</bean>
+</beans>
